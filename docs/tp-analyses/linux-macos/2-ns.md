@@ -20,7 +20,6 @@ readresolve.tech.       3600    IN      NS      dns13.ovh.net.
 
 | Fragment | Lecture |
 | --- | --- |
-| `dns13.ovh.net` / `ns13.ovh.net` | Paire NS **OVH** — cohérent avec l’étape 1. |
-| TTL inférieur à 3600 | Reste de cache, pas un TTL de zone à 145 s. |
+| `dns13.ovh.net` / `ns13.ovh.net` | Paire de serveur autoritaire d'**OVH** |
 
 ← [Retour à la feuille TP](../../tp-sheet.md#cmd-2-ns)

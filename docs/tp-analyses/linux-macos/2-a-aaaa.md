@@ -38,7 +38,6 @@ readresolve.tech.       300     IN      SOA     dns13.ovh.net. tech.ovh.net. …
 | Fragment | Lecture |
 | --- | --- |
 | `A 54.36.100.9` | Apex → IP du VPS. |
-| `TTL 3600` (ou plus bas) | TTL **configuré** = 3600 ; plus bas = **reste** en cache. |
 | `ANSWER: 0` + `SOA` (AAAA) | **Pas d’IPv6** : le nom existe, ce type n’a pas d’enregistrement. |
 | ≠ `NXDOMAIN` | `NXDOMAIN` = le **nom** n’existe pas. |
 

@@ -1,5 +1,7 @@
 # Feuille TP — commandes
 
+Version apprenants (à remplir pendant la présentation) : [tp-sheet-trous.md](tp-sheet-trous.md)
+
 On va avoir besoin de 2 terminaux :
 - un `bash` sur le VPS
 - un `PowerShell` sur Windows (déso Hélène et Amine :broken_heart: )
@@ -53,7 +55,11 @@ Le résultat est abrupt mais tout est là !
 
 <a id="cmd-1-root"></a>
 
-🐧 **Linux / macOS** — *pas d’équivalent*
+🐧 **Linux / macOS** — [Analyse](tp-analyses/linux-macos/1-root-ns-tech.md)
+
+```bash
+dig NS tech. @a.root-servers.net
+```
 
 🪟 **Windows** — [Analyse](tp-analyses/windows/1-root-ns-tech.md)
 
@@ -65,7 +71,11 @@ nslookup -type=NS tech. a.root-servers.net
 
 <a id="cmd-1-tld"></a>
 
-🐧 **Linux / macOS** — *pas d’équivalent*
+🐧 **Linux / macOS** — [Analyse](tp-analyses/linux-macos/1-tld-ns.md)
+
+```bash
+dig NS readresolve.tech @ns01.trs-dns.com
+```
 
 🪟 **Windows** — [Analyse](tp-analyses/windows/1-tld-ns.md)
 
@@ -77,7 +87,11 @@ nslookup -type=NS readresolve.tech ns01.trs-dns.com
 
 <a id="cmd-1-auth"></a>
 
-🐧 **Linux / macOS** — *pas d’équivalent*
+🐧 **Linux / macOS** — [Analyse](tp-analyses/linux-macos/1-auth-a.md)
+
+```bash
+dig A readresolve.tech @dns13.ovh.net
+```
 
 🪟 **Windows** — [Analyse](tp-analyses/windows/1-auth-a.md)
 
@@ -85,11 +99,16 @@ nslookup -type=NS readresolve.tech ns01.trs-dns.com
 nslookup -type=A readresolve.tech dns13.ovh.net
 ```
 
+| Server | NOM |
+| ----- | ------------- |
+| Serveur Root (`.`) | `a.root-servers.net` |
+| Serveur TLD (`.tech`) | `ns01.trs-dns.com`, `ns01.trs-dns.net`, `ns10.trs-dns.org`, `ns10.trs-dns.info` |
+| Serveur Autoritaire | `dns13.ovh.net`, `ns13.ovh.net` |
+| IP VPS | `54.36.100.9` |
+
 ---
 
 ## 2. Enregistrement DNS
-
-Objectif : Découvrir les enregistrements sur le VPS
 
 ### 2.1. Records A et AAAA
 
@@ -145,9 +164,7 @@ dig CNAME www.readresolve.tech
 Resolve-DnsName -Name "www.readresolve.tech" -Type CNAME
 ```
 
-### 2.4. À creuser (sans fiche)
-
-MX, TXT, A de `www`, whois : à lancer pour voir la zone, pas d’analyse dédiée.
+### 2.4. Autres
 
 🐧 **Linux / macOS**
 
@@ -166,20 +183,16 @@ Resolve-DnsName -Name "readresolve.tech" -Type TXT
 Resolve-DnsName -Name "www.readresolve.tech" -Type A
 ```
 
-🪟 **Windows** — *pas d’équivalent `whois`*
-
-**À reconnaître**
+**Bilan**
 
 | Type  | Attendu                                                   |
 | ----- | --------------------------------------------------------- |
 | A     | `54.36.100.9`, TTL 3600                                   |
 | AAAA  | absent                                                    |
 | NS    | `dns13.ovh.net`, `ns13.ovh.net`                           |
-| MX    | `mx4.mail.ovh.net` (prio 1), `mx3.mail.ovh.net` (prio 10) |
+| MX    | `mx4.mail.ovh.net`, `mx3.mail.ovh.net`                    |
 | TXT   | SPF OVH                                                   |
-| `www` | **A** (pas un CNAME) vers la même IP                      |
-
-Zone dans la console OVH : capture / démo formateur.
+| `www` | **A**   vers la même IP                                   |
 
 ---
 
@@ -245,123 +258,23 @@ tracert -d 54.36.100.9
 
 ## 5. Configuration du VPS
 
-Objectif : firewall local (`iptables`), **qui écoute** (ports / sockets), reverse proxy frontend → backend.
+Objectif : **qui écoute** (ports / sockets), et ce que voit l’extérieur.
 
 Commandes **VPS** = bash Linux (même depuis un PC Windows, via SSH).
 
-### 5a. Lire le firewall — VPS
-
-<a id="cmd-5-iptables-list"></a>
-
-🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-iptables-list.md)
-
-```bash
-sudo iptables -L -n -v --line-numbers
-```
-
-🪟 **Windows** — *pas d’équivalent*
-
-<a id="cmd-5-iptables-rules"></a>
-
-🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-iptables-rules.md)
-
-```bash
-sudo cat /etc/iptables/rules.v4
-```
-
-🪟 **Windows** — *pas d’équivalent*
-
-### 5b. Atelier port 443 — Local puis VPS
-
-**Local** (avant / après le blocage) :
-
-<a id="cmd-5-curl-https"></a>
-
-🐧 **Linux / macOS** — [Analyse](tp-analyses/linux-macos/5-curl-https.md)
-
-```bash
-curl -I --max-time 8 https://readresolve.tech
-```
-
-🪟 **Windows** — [Analyse](tp-analyses/windows/5-curl-https.md)
-
-```powershell
-curl.exe -I --max-time 8 https://readresolve.tech
-```
-
-**VPS** (ne pas toucher au SSH / ports 22 ou 64483) :
-
-<a id="cmd-5-iptables-drop"></a>
-
-🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-iptables-drop.md)
-
-```bash
-sudo iptables -I INPUT 1 -p tcp --dport 443 -j DROP
-```
-
-🪟 **Windows** — *pas d’équivalent*
-
-<a id="cmd-5-iptables-input"></a>
-
-🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-iptables-input.md)
-
-```bash
-sudo iptables -L INPUT --line-numbers
-```
-
-🪟 **Windows** — *pas d’équivalent*
-
-<a id="cmd-5-iptables-delete"></a>
-
-🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-iptables-delete.md)
-
-```bash
-sudo iptables -D INPUT 1
-```
-
-🪟 **Windows** — *pas d’équivalent*
-
-`ping 54.36.100.9` peut rester OK : ICMP ≠ HTTPS.
-
-### 5c. Ports / sockets — VPS
+### 5a. Ports / sockets — VPS
 
 <a id="cmd-5-ss"></a>
 
 🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-ss.md)
 
 ```bash
-sudo ss -tlnp
+ss -tlnp
 ```
 
 🪟 **Windows** — *pas d’équivalent*
 
-<a id="cmd-5-ss-grep"></a>
-
-🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-ss-grep.md)
-
-```bash
-sudo ss -tlnp | grep -E ':80|:443|:22|:64483|:90'
-```
-
-🪟 **Windows** — *pas d’équivalent*
-
-Repérer : `*:80` / `*:443` (public) vs `127.0.0.1:…` (local seulement).
-
-### 5d. Ce que voit l’extérieur — Local
-
-<a id="cmd-5d-curl"></a>
-
-🐧 **Linux / macOS** — [Analyse](tp-analyses/linux-macos/5-curl-https.md)
-
-```bash
-curl -I https://readresolve.tech
-```
-
-🪟 **Windows** — [Analyse](tp-analyses/windows/5-curl-https.md)
-
-```powershell
-curl.exe -I https://readresolve.tech
-```
+### 5b. Ce que voit l’extérieur — Local
 
 <a id="cmd-5-nmap"></a>
 
@@ -371,55 +284,9 @@ curl.exe -I https://readresolve.tech
 nmap -sV -p 22,80,443 54.36.100.9
 ```
 
-🪟 **Windows** — [Analyse](tp-analyses/windows/5-nmap.md)
-
-```powershell
-nmap -sV -p 22,80,443 54.36.100.9
-```
+🪟 **Windows** — *pas d’équivalent*
 
 `nmap` uniquement vers **notre** VPS.
-
-### 5e. Reverse proxy Apache — VPS (lecture seule)
-
-<a id="cmd-5-apache-s"></a>
-
-🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-apache-s.md)
-
-```bash
-sudo apache2ctl -S
-```
-
-🪟 **Windows** — *pas d’équivalent*
-
-<a id="cmd-5-apache-m"></a>
-
-🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-apache-m.md)
-
-```bash
-sudo apache2ctl -M
-```
-
-🪟 **Windows** — *pas d’équivalent*
-
-<a id="cmd-5-ls-sites"></a>
-
-🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-ls-sites.md)
-
-```bash
-ls -la /etc/apache2/sites-enabled/
-```
-
-🪟 **Windows** — *pas d’équivalent*
-
-<a id="cmd-5-grep-apache"></a>
-
-🐧 **Linux (VPS)** — [Analyse](tp-analyses/linux-macos/5-grep-apache.md)
-
-```bash
-sudo grep -RniE 'ProxyPass|ProxyPassReverse|ServerName|VirtualHost|Listen' /etc/apache2/
-```
-
-🪟 **Windows** — *pas d’équivalent*
 
 ---
 
@@ -427,8 +294,8 @@ sudo grep -RniE 'ProxyPass|ProxyPassReverse|ServerName|VirtualHost|Listen' /etc/
 
 | Partie               | 🐧 Linux / macOS                                   | 🪟 Windows                                           |
 | -------------------- | -------------------------------------------------- | ---------------------------------------------------- |
-| 1 Résolution DNS     | `dig +trace`                                       | `nslookup` (root → TLD → autoritaire)                |
+| 1 Résolution DNS     | `dig +trace` · `dig @` (root → TLD → autoritaire)  | `nslookup` (root → TLD → autoritaire)                |
 | 2 Enregistrement DNS | `dig A/AAAA` · `NS` · `CNAME`                      | `Resolve-DnsName` A/AAAA · NS · CNAME                |
 | 3 Routage            | `ping` · `traceroute` · `traceroute -I`            | `ping` · `tracert` · `tracert -d`                    |
 | 4 Infra OVH          | captures formateur (pas de CLI)                    | captures formateur (pas de CLI)                      |
-| 5 VPS                | `iptables` · `ss` · `curl` · `nmap` · conf Apache  | local : `curl.exe` · `nmap` — le reste via SSH/bash  |
+| 5 VPS                | `ss` · `nmap`                                      | *pas d’équivalent*                                   |

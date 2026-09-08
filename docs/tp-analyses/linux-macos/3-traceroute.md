@@ -2,15 +2,11 @@
 
 # `traceroute` vers `54.36.100.9`
 
-**But :** voir **approximativement** le chemin (box → FAI → OVH → VPS).
-
-Les chemins et le nombre de `*` **changent** selon le FAI. On cherche la **forme**, pas les mêmes IP.
-
 ```bash
 traceroute 54.36.100.9
 ```
 
-## Sortie attendue (souvent incomplète sous WSL)
+## Sortie attendue (souvent incomplète)
 
 ```
 traceroute to 54.36.100.9, 30 hops max
@@ -23,15 +19,5 @@ traceroute to 54.36.100.9, 30 hops max
 30  * * *
 ```
 
-WSL + traceroute UDP : beaucoup de `*` après l’entrée OVH. Le ping prouve pourtant que la cible est up.
-
-## Lignes importantes
-
-| Fragment | Lecture |
-| --- | --- |
-| `192.168.x.x` | **Box** / LAN. |
-| Noms opérateur | Sortie **FAI**. |
-| `213.186…` / `be100.par-…` | Entrée **backbone OVH**. |
-| `* * *` | Routeur **silencieux** aux sondes. **≠** lien cassé. |
 
 ← [Retour à la feuille TP](../../tp-sheet.md#cmd-3-traceroute)

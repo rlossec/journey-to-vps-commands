@@ -16,10 +16,4 @@ Nom :    readresolve.tech
 Address:  54.36.100.9
 ```
 
-## Lignes importantes
-
-| Fragment | Lecture |
-| --- | --- |
-| `Address: 54.36.100.9` | **IP publique du VPS.** Fin de la résolution. |
-
 ← [Retour à la feuille TP](../../tp-sheet.md#cmd-1-auth)

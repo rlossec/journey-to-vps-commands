@@ -8,8 +8,6 @@
 nmap -sV -p 22,80,443 54.36.100.9
 ```
 
-Sans nmap : s’appuyer sur `curl` + la démo formateur.
-
 ## Sortie attendue (depuis un PC)
 
 ```
@@ -21,8 +19,6 @@ PORT    STATE    SERVICE  VERSION
 80/tcp  open     http     Apache httpd
 443/tcp open     ssl/http Apache httpd
 ```
-
-Depuis **le VPS**, `22/tcp` peut être `closed` plutôt que `filtered`.
 
 ## Lignes importantes
 

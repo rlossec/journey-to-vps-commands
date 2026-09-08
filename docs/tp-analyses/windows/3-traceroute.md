@@ -23,15 +23,4 @@ tracert 54.36.100.9
  19     7 ms     vps-3229ca35.vps.ovh.net [54.36.100.9]
 ```
 
-## Lignes importantes
-
-| Fragment | Lecture |
-| --- | --- |
-| `192.168.x.x` | **Box** / LAN. |
-| Noms opérateur (`online.net`, …) | Sortie **FAI**. |
-| `213.186…` / `be100.par-…` | Entrée **backbone OVH**. |
-| `…vac…firewall…` | Douane hébergeur (VAC / firewall) — pont vers l’étape 4. |
-| `*` / délai dépassé | Routeur **silencieux** aux sondes. **≠** lien cassé. |
-| Dernier saut `54.36.100.9` | VPS atteint (quand la trace va au bout). |
-
 ← [Retour à la feuille TP](../../tp-sheet.md#cmd-3-traceroute)
