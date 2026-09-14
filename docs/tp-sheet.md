@@ -1,6 +1,5 @@
 # Feuille TP — commandes
 
-Version apprenants (à remplir pendant la présentation) : [tp-sheet-trous.md](tp-sheet-trous.md)
 
 On va avoir besoin de 2 terminaux :
 - un `bash` sur le VPS
@@ -15,15 +14,9 @@ ssh mbr-********@54.36.100.9 -p 64483
 Il y a qq fois équivalence mais souvent la nature des commandes différent entre les OS.
 Il y a du bon à prendre dans les deux.  
 
-Après chaque commande, un bandeau **🐧 Linux / macOS** et **🪟 Windows** : le lien ouvre l’analyse de **votre** OS.
+Après chaque commande, un bandeau **🐧 Linux / macOS** et **🪟 Windows** : le lien ouvre l'analyse de **votre** OS.
 
-S’il n’y a pas d’équivalent, c’est indiqué en italique, sans fiche.
-
-Chaque fiche contient :
-- un rappel de la commande, 
-- un exemple de sortie attendue,
-- une analyse des lignes utiles,
-- un lien vers cette page 
+S'il n'y a pas d'équivalent, c'est indiqué en italique, sans fiche.
 
 ---
 
@@ -45,7 +38,7 @@ Pas de commandes
 dig +trace readresolve.tech
 ```
 
-🪟 **Windows** — *pas d’équivalent*
+🪟 **Windows** — *pas d'équivalent*
 
 Le résultat est abrupt mais tout est là !
 
@@ -198,7 +191,7 @@ Resolve-DnsName -Name "www.readresolve.tech" -Type A
 
 ## 3. Routage Internet
 
-Objectif : l’IP est-elle **joignable**, et **par où** ?
+Objectif : l'IP est-elle **joignable**, et **par où** ?
 
 ### Ping
 
@@ -252,13 +245,13 @@ tracert -d 54.36.100.9
 
 ## 4. Infrastructure OVH
 
-**Pas de commande** sur cette partie : on n’a pas la main sur HCAP / VAC / edge FW. Observation sur captures console OVH.
+**Pas de commande** sur cette partie : on n'a pas la main sur HCAP / VAC / edge FW. Observation sur captures console OVH.
 
 ---
 
 ## 5. Configuration du VPS
 
-Objectif : **qui écoute** (ports / sockets), et ce que voit l’extérieur.
+Objectif : **qui écoute** (ports / sockets), et ce que voit l'extérieur.
 
 Commandes **VPS** = bash Linux (même depuis un PC Windows, via SSH).
 
@@ -272,9 +265,9 @@ Commandes **VPS** = bash Linux (même depuis un PC Windows, via SSH).
 ss -tlnp
 ```
 
-🪟 **Windows** — *pas d’équivalent*
+🪟 **Windows** — *pas d'équivalent*
 
-### 5b. Ce que voit l’extérieur — Local
+### 5b. Ce que voit l'extérieur — Local
 
 <a id="cmd-5-nmap"></a>
 
@@ -284,7 +277,7 @@ ss -tlnp
 nmap -sV -p 22,80,443 54.36.100.9
 ```
 
-🪟 **Windows** — *pas d’équivalent*
+🪟 **Windows** — *pas d'équivalent*
 
 `nmap` uniquement vers **notre** VPS.
 
@@ -298,4 +291,4 @@ nmap -sV -p 22,80,443 54.36.100.9
 | 2 Enregistrement DNS | `dig A/AAAA` · `NS` · `CNAME`                      | `Resolve-DnsName` A/AAAA · NS · CNAME                |
 | 3 Routage            | `ping` · `traceroute` · `traceroute -I`            | `ping` · `tracert` · `tracert -d`                    |
 | 4 Infra OVH          | captures formateur (pas de CLI)                    | captures formateur (pas de CLI)                      |
-| 5 VPS                | `ss` · `nmap`                                      | *pas d’équivalent*                                   |
+| 5 VPS                | `ss` · `nmap`                                      | *pas d'équivalent*                                   |
